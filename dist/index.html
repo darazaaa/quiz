@@ -38,7 +38,7 @@
     function parseQuiz(text){
       text=normalize(text); const lines=text.split('\n').map(x=>x.trim()).filter(Boolean); const out=[]; let current=null;
       const qPattern=/^(?:вопрос\s*)?(\d{1,3})\s*[.)]\s*(.+)$/i; const aPattern=/^(\+?\s*)(?:[A-FА-Еa-fа-е]|\d{1,2})\s*[).:-]\s*(.+)$/;
-      for(const line of lines){let qm=line.match(qPattern);let am=line.match(aPattern);if(qm&&!am){if(current&&current.a.length>1)out.push(current);current={q:qm[2],a:[],correct:-1};continue}if(am&&current){const mark=/^\+/.test(am[1])||/^\+/.test(line)||/\(\s*\+\s*\)\s*$/.test(am[2]);const answer=am[2].replace(/\s*\(\s*\+\s*\)\s*$/,'').trim();current.a.push(answer);if(mark)current.correct=current.a.length-1;continue}if(current){if(current.a.length)current.a[current.a.length-1]+=' '+line;else current.q+=' '+line}}
+      for(const line of lines){let qm=line.match(qPattern);let am=line.match(aPattern);if(qm){if(current&&current.a.length>1)out.push(current);current={q:qm[2],a:[],correct:-1};continue}if(am&&current){const mark=/^\+/.test(am[1])||/^\+/.test(line)||/\(\s*\+\s*\)\s*$/.test(am[2]);const answer=am[2].replace(/\s*\(\s*\+\s*\)\s*$/,'').trim();current.a.push(answer);if(mark)current.correct=current.a.length-1;continue}if(current){if(current.a.length)current.a[current.a.length-1]+=' '+line;else current.q+=' '+line}}
       if(current&&current.a.length>1)out.push(current);
       if(!out.length){
         const blocks=text.split(/\n\s*\n/);
